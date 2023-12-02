@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "tmb"
+version = "0.1.0"
+description = "Planning tool for Tour du Mont Blanc"
+authors = ["Leon Lan <l.lan@vu.nl>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.31.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
