@@ -39,6 +39,7 @@ tmb.plot(df, f"{today}_availability.pdf")
 ```
 
 This results in the following plot:
+
 ![example_plot](./example_plot.png)
     
 ## Notes
