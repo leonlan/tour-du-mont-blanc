@@ -2,8 +2,11 @@
 name = "tmb"
 version = "0.1.0"
 description = "Planning tool for Tour du Mont Blanc"
-authors = ["Leon Lan <l.lan@vu.nl>"]
+authors = ["Leon Lan <leonlan.yd@gmail.com>"]
+license = "MIT"
 readme = "README.md"
+repository = "https://github.com/leonlan/tour-du-mont-blanc"
+
 
 [tool.poetry.dependencies]
 python = "^3.12"
