@@ -22,7 +22,8 @@ def plot(df: pd.DataFrame, save_loc: Optional[str]):
     save_loc: str
         Location to save the plot.
     """
-    _, ax = plt.subplots(1, 1)
+    width, height = [v / 6 for v in df.T.shape]
+    _, ax = plt.subplots(1, 1, figsize=(width, height))
 
     # Setup colormap encoding
     colors = ["red", "orange", "yellow", "green"]
