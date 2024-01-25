@@ -1,10 +1,15 @@
 from collections import defaultdict
+import argparse
 from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
 
 import tmb
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--out", type=Path)
+args = parser.parse_args()
 
 data_loc = Path("data/huts.csv")
 refuges_df = pd.read_csv(data_loc)
@@ -23,4 +28,4 @@ df = pd.DataFrame(availability).T
 df.columns = df.columns.date
 
 today = datetime.now().strftime("%Y%m%d")
-df.to_csv("calendar/availability.csv")
+df.to_csv()
