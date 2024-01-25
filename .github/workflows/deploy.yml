@@ -20,7 +20,7 @@ jobs:
           poetry install
       - name: Get new availability data
         run: |
-	  poetry run python scripts/save_availability.py
+          poetry run python scripts/save_availability.py
       - name: Deploy 
         uses: JamesIves/github-pages-deploy-action@v4
         with:
