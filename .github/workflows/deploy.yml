@@ -31,7 +31,7 @@ jobs:
         run: poetry install 
       - name: Get new availability data
         run: |
-          poetry run python scripts/save_availability.py --out calendar/availability.csv
+          poetry run python scripts/get_availability.py --out calendar/availability.csv
       - name: Deploy 
         uses: JamesIves/github-pages-deploy-action@v4
         with:
