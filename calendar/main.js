@@ -1,4 +1,4 @@
-Papa.parse("20231212_availability.csv", {
+Papa.parse("availability.csv", {
     download: true,
     header: true,
     dynamicTyping: true, // converts data to numbers
