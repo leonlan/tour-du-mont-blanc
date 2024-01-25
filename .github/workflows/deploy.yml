@@ -9,7 +9,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
+      - name: Checkout
         uses: actions/checkout@v3
       - name: Set up Python
         uses: actions/setup-python@v3
@@ -19,8 +19,8 @@ jobs:
           pip install poetry
           poetry install
       - name: Fetch new availability data
-      	run: poetry run python scripts/save_availability.csv
-      - name: Deploy 🚀
+	run: poetry run python scripts/save_availability.py
+      - name: Deploy 
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: calendar 
