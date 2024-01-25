@@ -18,6 +18,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install poetry
           poetry install
+      - name: Get new availability data
+        run: |
+	  poetry run python scripts/save_availability.py
       - name: Deploy 
         uses: JamesIves/github-pages-deploy-action@v4
         with:
