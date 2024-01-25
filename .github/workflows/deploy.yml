@@ -2,7 +2,7 @@ name: Build and Deploy
 on:
   schedule:
     - cron:  '0 8 * * *'
-  push
+  push:
 permissions:
   contents: write
 jobs:
