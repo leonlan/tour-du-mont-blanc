@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hotel availability</title>
+    <style>
+        td.available { background-color: green; }
+        td.notavailable { background-color: red; }
+        #calendar tbody {
+            cursor: move;
+        }
+        th.minimized { 
+            max-width: 0.1px !important; 
+            overflow: hidden; 
+            text-indent: 100%;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+	.minimized {
+	    height: 10px !important; /* You can adjust this height as needed */
+	    overflow: hidden;
+	    padding: 0 !important; /* Remove padding */
+	    line-height: 0.5 !important; /* Reduce line-height */
+	}
+        table {
+            width: 100%;
+        }
+        th, td {
+            max-width: 200px;
+            overflow: auto;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+</head>
+<body>
+    <table id="calendar">
+        <thead></thead>
+        <tbody></tbody>
+    </table>
+    <script src="main.js"></script> 
+</body>
+</html>
