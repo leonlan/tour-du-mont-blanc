@@ -1,17 +1,20 @@
 import numpy as np
 import pandas as pd
 
+from ipyleaflet import Map, Marker, AwesomeIcon
 from shiny import reactive
 from shiny.express import input, render, ui
+from shinywidgets import render_widget
+
 
 df = pd.read_csv("20231212_availability.csv", index_col=0)
 huts = list(df.index)
 dates: np.ndarray = df.columns  # type: ignore
 
+
 ui.page_opts(
     title="Tour du Mont Blanc planner",
     window_title="TMB planner",
-    fillable=True,
 )
 
 
@@ -41,18 +44,37 @@ def filter_df() -> pd.DataFrame:
     return filt_df
 
 
-with ui.layout_columns():
-    with ui.card():
-        ui.card_header("Hut availability")
+with ui.card(height="1000px"):
+    ui.card_header("Hut availability")
 
-        @render.data_frame
-        def summary_statistics():
-            display_df = filter_df()
-            display_df = display_df.reset_index().rename(columns={"index": "Hut"})
+    @render.data_frame
+    def summary_statistics():
+        display_df = filter_df()
+        display_df = display_df.reset_index().rename(columns={"index": "Hut"})
 
-            return render.DataGrid(
-                display_df,
-                height="100%",
-                summary=False,
-                row_selection_mode="multiple",
-            )
+        return render.DataGrid(
+            display_df,
+            summary=False,
+            row_selection_mode="multiple",
+            height="100%",
+        )
+
+
+hut_data = pd.read_csv("data/huts.csv")
+coord_data = [
+    ((str(item.mon_name), (item.lt, item.lg))) for item in hut_data.itertuples()
+]
+
+with ui.card(height="1000px"):
+    ui.card_header("TMB map")
+
+    @render_widget
+    def map():
+        icon = AwesomeIcon(name="bed")
+        map = Map(center=(45.900577, 6.7994213), zoom=10)
+
+        for name, coords in coord_data:
+            point = Marker(location=coords, icon=icon, draggable=False, title=name)
+            map.add_layer(point)
+
+        return map
