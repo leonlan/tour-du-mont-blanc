@@ -8,7 +8,11 @@ df = pd.read_csv("20231212_availability.csv", index_col=0)
 huts = list(df.index)
 dates: np.ndarray = df.columns  # type: ignore
 
-ui.page_opts(fillable=True)
+ui.page_opts(
+    title="Tour du Mont Blanc planner",
+    window_title="TMB planner",
+    fillable=True,
+)
 
 
 with ui.sidebar(width="20%"):
