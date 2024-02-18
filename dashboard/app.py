@@ -45,4 +45,10 @@ with ui.layout_columns():
         def summary_statistics():
             display_df = filter_df()
             display_df = display_df.reset_index().rename(columns={"index": "Hut"})
-            return render.DataGrid(display_df)
+
+            return render.DataGrid(
+                display_df,
+                height="100%",
+                summary=False,
+                row_selection_mode="multiple",
+            )
