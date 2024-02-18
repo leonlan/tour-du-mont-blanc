@@ -59,6 +59,12 @@ with ui.card(height="1000px"):
             height="100%",
         )
 
+    @render.download(filename="tmb_hut_availability.csv", label="Download as CSV")
+    def download():
+        # TODO I'm not sure what the first return value is for, but without the
+        # download raises an error about the CSV output not being a valid file name.
+        return "", filter_df().to_csv(index=False)
+
 
 hut_data = pd.read_csv("data/huts.csv")
 coord_data = [
