@@ -1,35 +1,25 @@
 import numpy as np
 import pandas as pd
-import seaborn as sns
 
 from shiny import reactive
 from shiny.express import input, render, ui
 
 df = pd.read_csv("20231212_availability.csv", index_col=0)
-huts = df.index
+huts = list(df.index)
 dates: np.ndarray = df.columns  # type: ignore
 
 ui.page_opts(fillable=True)
-
-tooltip = ui.tooltip(
-    id="tooltip",
-    placement="right",
-)
 
 
 with ui.sidebar(width="20%"):
     ui.input_date_range("daterange", "Date range", start=dates.min(), end=dates.max())
 
-    with ui.tooltip(id="btn_tooltip", placement="right"):
-        ui.input_select(
-            "select",
-            "Select huts below:",
-            choices={val: val for val in df.index},
-            multiple=True,
-            selected=list(huts),
-            size="40",
-        )
-        "Use shift or ctrl/cmd to select multiple."
+    ui.input_checkbox_group(
+        "select",
+        "Select huts",
+        {val: val for val in df.index},
+        selected=huts,
+    )
 
 
 @reactive.Calc
