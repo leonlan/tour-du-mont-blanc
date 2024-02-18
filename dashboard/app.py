@@ -1,82 +1,58 @@
-from pathlib import Path
-
+import numpy as np
 import pandas as pd
 import seaborn as sns
 
 from shiny import reactive
 from shiny.express import input, render, ui
 
-sns.set_theme(style="white")
-df = pd.read_csv(Path(__file__).parent / "penguins.csv", na_values="NA")
-species = ["Adelie", "Gentoo", "Chinstrap"]
+df = pd.read_csv("20231212_availability.csv", index_col=0)
+huts = df.index
+dates: np.ndarray = df.columns  # type: ignore
 
 ui.page_opts(fillable=True)
 
+tooltip = ui.tooltip(
+    id="tooltip",
+    placement="right",
+)
 
-def count_species(df, species):
-    return df[df["Species"] == species].shape[0]
 
+with ui.sidebar(width="20%"):
+    ui.input_date_range("daterange", "Date range", start=dates.min(), end=dates.max())
 
-with ui.sidebar():
-    ui.input_slider("mass", "Mass", 2000, 6000, 3400)
-    ui.input_checkbox_group("species", "Filter by species", species, selected=species)
+    with ui.tooltip(id="btn_tooltip", placement="right"):
+        ui.input_select(
+            "select",
+            "Select huts below:",
+            choices={val: val for val in df.index},
+            multiple=True,
+            selected=list(huts),
+            size="40",
+        )
+        "Use shift or ctrl/cmd to select multiple."
 
 
 @reactive.Calc
-def filtered_df() -> pd.DataFrame:
-    filt_df = df[df["Species"].isin(input.species())]
-    filt_df = filt_df.loc[filt_df["Body Mass (g)"] > input.mass()]
+def filter_df() -> pd.DataFrame:
+    selected_huts = list(input.select())
+    filt_df = df.loc[selected_huts]
+
+    # Filter by date range; converting to datetime makes this easier to
+    # filter. But we need to convert back to string for display.
+    filt_df.columns = pd.to_datetime(filt_df.columns)
+    start_date, end_date = input.daterange()
+    filt_df = filt_df.loc[:, start_date:end_date]
+    filt_df.columns = filt_df.columns.strftime("%Y-%m-%d")
+
     return filt_df
 
 
 with ui.layout_columns():
-    with ui.value_box(theme="primary"):
-        "Adelie"
-
-        @render.text
-        def adelie_count():
-            return count_species(filtered_df(), "Adelie")
-
-    with ui.value_box(theme="primary"):
-        "Gentoo"
-
-        @render.text
-        def gentoo_count():
-            return count_species(filtered_df(), "Gentoo")
-
-    with ui.value_box(theme="primary"):
-        "Chinstrap"
-
-        @render.text
-        def chinstrap_count():
-            return count_species(filtered_df(), "Chinstrap")
-
-
-with ui.layout_columns():
     with ui.card():
-        ui.card_header("Summary statistics")
+        ui.card_header("Hut availability")
 
         @render.data_frame
         def summary_statistics():
-            display_df = filtered_df()[
-                [
-                    "Species",
-                    "Island",
-                    "Bill Length (mm)",
-                    "Bill Depth (mm)",
-                    "Body Mass (g)",
-                ]
-            ]
-            return render.DataGrid(display_df, filters=True)
-
-    with ui.card():
-        ui.card_header("Penguin bills")
-
-        @render.plot
-        def length_depth():
-            return sns.scatterplot(
-                data=filtered_df(),
-                x="Bill Length (mm)",
-                y="Bill Depth (mm)",
-                hue="Species",
-            )
+            display_df = filter_df()
+            display_df = display_df.reset_index().rename(columns={"index": "Hut"})
+            return render.DataGrid(display_df)
