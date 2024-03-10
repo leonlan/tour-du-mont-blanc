@@ -26,6 +26,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          git fetch origin
           git checkout availability
           git add daily/$(date +%Y-%m-%d).csv
           git commit -m "Add availability $(date +%Y-%m-%d)"
