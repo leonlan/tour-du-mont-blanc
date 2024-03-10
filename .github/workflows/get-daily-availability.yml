@@ -3,7 +3,6 @@ name: Get daily availability
 on:
   schedule:
     - cron:  '0 8 * * *'
-  push:
 
 permissions:
   contents: write
