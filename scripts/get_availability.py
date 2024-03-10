@@ -27,5 +27,4 @@ for date in dates:
 df = pd.DataFrame(availability).T
 df.columns = df.columns.date
 
-today = datetime.now().strftime("%Y%m%d")
 df.to_csv(args.out)
