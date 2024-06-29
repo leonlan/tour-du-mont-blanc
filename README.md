@@ -2,8 +2,7 @@
 `tmb` is a Python application to help you plan your Tour du Mont Blanc (TMB) hike.
 
 Most refuges on the TMB list their availability on https://www.montourdumontblanc.com, but the website is a little bit hard to navigate.
-Instead, I made a dashboard that show  the availability of all refuges, in a simple calendar view.
-The dashboard can be found at https://leonlan.shinyapps.io/dashboard/ and the availability information is updated on a daily basis.
+I built a simple script that fetches the availability for all huts.
     
 ## Notes about the TMB
 - Not all refuges on the TMB have their availability listed on https://www.montourdumontblanc.com.
