@@ -39,8 +39,6 @@ def highlight_conditions(val):
     return f"background-color: {color}"
 
 
-st.markdown(legend_html, unsafe_allow_html=True)
-
 if len(date_range) > 1:
     cols = []
     for col in df.columns:
