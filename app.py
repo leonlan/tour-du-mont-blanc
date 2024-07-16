@@ -23,20 +23,15 @@ except:
     )
     text = f"Data fetched on {yesterday.date()}"
 
-# Title of the Streamlit app
 st.title("TMB hut availability calendar")
-
 st.markdown(text)
 
-# Define the default start and end dates
 start_date = today
 end_date = datetime.strptime("2024-09-30", "%Y-%m-%d")
 
-# Define the min and max date range
 min_date = datetime.strptime("2024-06-01", "%Y-%m-%d")
 max_date = end_date
 
-# Date range selector with min and max date range
 date_range = st.date_input(
     "Select a date range:",
     value=(start_date, end_date),
@@ -44,9 +39,8 @@ date_range = st.date_input(
     max_value=max_date,
 )
 
-# Multiselect widget for name selection
 hut_names = sorted(df.index.unique())
-selected_names = st.multiselect(
+selected_huts = st.multiselect(
     "Select names:",
     options=hut_names,
     default=hut_names,
@@ -64,16 +58,12 @@ def highlight_conditions(val):
 
 
 if len(date_range) > 1:
-    cols = []
-
-    for col in df.columns:
-        date = datetime.strptime(col, "%Y-%m-%d").date()
-
-        if date_range[0] <= date <= date_range[1]:
-            cols.append(col)
-
-    filtered_df = df[cols]
-    filtered_df = filtered_df.loc[selected_names]
+    cols = [
+        col
+        for col in df.columns
+        if date_range[0] <= datetime.strptime(col, "%Y-%m-%d").date() <= date_range[1]
+    ]
+    filtered_df = df.loc[selected_huts, cols]
 
     if not filtered_df.empty:
         styled_df = filtered_df.style.map(highlight_conditions)
