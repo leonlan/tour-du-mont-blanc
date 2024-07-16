@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 import pandas as pd
 import streamlit as st
 
+st.set_page_config(layout="wide")
 
 today = datetime.today()
 
@@ -12,6 +13,7 @@ try:
         f"https://raw.githubusercontent.com/leonlan/tour-du-mont-blanc/availability/daily/{today.date()}.csv",
         index_col=0,
     )
+    text = f"Data fetched on {today.date()}"
 except:
     # Fallback to yesterday's data if today's data is not available.
     yesterday = today - timedelta(days=1)
@@ -19,17 +21,20 @@ except:
         f"https://raw.githubusercontent.com/leonlan/tour-du-mont-blanc/availability/daily/{yesterday.date()}.csv",
         index_col=0,
     )
+    text = f"Data fetched on {yesterday.date()}"
 
 # Title of the Streamlit app
 st.title("TMB hut availability calendar")
 
+st.markdown(text)
+
 # Define the default start and end dates
 start_date = today
-end_date = today + timedelta(days=7)
+end_date = datetime.strptime("2024-09-30", "%Y-%m-%d")
 
 # Define the min and max date range
 min_date = datetime.strptime("2024-06-01", "%Y-%m-%d")
-max_date = datetime.strptime("2024-09-30", "%Y-%m-%d")
+max_date = end_date
 
 # Date range selector with min and max date range
 date_range = st.date_input(
@@ -40,7 +45,12 @@ date_range = st.date_input(
 )
 
 # Multiselect widget for name selection
-selected_names = st.multiselect("Select names:", options=sorted(df.index.unique()))
+hut_names = sorted(df.index.unique())
+selected_names = st.multiselect(
+    "Select names:",
+    options=hut_names,
+    default=hut_names,
+)
 
 
 def highlight_conditions(val):
