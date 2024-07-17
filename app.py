@@ -27,7 +27,7 @@ st.title("TMB hut availability calendar")
 st.markdown(text)
 
 start_date = today
-end_date = datetime.strptime("2024-09-30", "%Y-%m-%d")
+end_date = datetime.strptime("2024-09-29", "%Y-%m-%d")
 
 min_date = datetime.strptime("2024-06-01", "%Y-%m-%d")
 max_date = end_date
