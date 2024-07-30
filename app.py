@@ -21,7 +21,7 @@ except:
         f"https://raw.githubusercontent.com/leonlan/tour-du-mont-blanc/availability/daily/{yesterday.date()}.csv",
         index_col=0,
     )
-    text = f"Data fetched on {yesterday.date()}"
+    text = f"Data last updated on: {yesterday.date()}"
 
 st.title("TMB hut availability calendar")
 st.markdown(text)
