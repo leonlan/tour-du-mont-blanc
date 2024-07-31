@@ -57,7 +57,7 @@ def highlight_conditions(val):
     return f"background-color: {color}"
 
 
-if len(date_range) > 0:
+if len(date_range) == 2:  # both dates must be selected
     cols = [
         col
         for col in df.columns
