@@ -24,7 +24,7 @@ except:
         f"https://raw.githubusercontent.com/leonlan/tour-du-mont-blanc/availability/daily/{yesterday.date()}.csv",
         index_col=0,
     )
-    text = f"Data lasted updated on: {yesterday.date()}."
+    text = f"Data last updated on: {yesterday.date()}"
 
 hut_names = sorted(df.index.unique())
 
