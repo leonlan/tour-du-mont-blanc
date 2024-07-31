@@ -30,17 +30,12 @@ hut_names = sorted(df.index.unique())
 
 st.title("TMB hut availability calendar")
 
-
-# Session state defaults
-if "date_range" not in st.session_state:
-    st.session_state.date_range = [today.date(), END_DATE.date()]
-
-if "selected_huts" not in st.session_state:
-    st.session_state.selected_huts = hut_names
+start_date = today
+end_date = END_DATE
 
 date_range = st.date_input(
     "Select a date range:",
-    value=st.session_state.date_range,
+    value=(start_date, end_date),
     min_value=START_DATE,
     max_value=END_DATE,
     key="date_range",
@@ -49,7 +44,7 @@ date_range = st.date_input(
 selected_huts = st.multiselect(
     "Select huts:",
     options=hut_names,
-    default=st.session_state.selected_huts,
+    default=hut_names,
     key="selected_huts",
 )
 
@@ -63,9 +58,6 @@ def highlight_conditions(val):
         color = ""
     return f"background-color: {color}"
 
-
-st.write("Date range:", date_range)
-st.write("Selected huts:", selected_huts)
 
 if len(date_range) > 0:
     cols = [
@@ -81,4 +73,4 @@ if len(date_range) > 0:
 
 
 st.markdown(text)
-st.markdown("Green: 3 or more beds available; Yellow: 1-3 beds available.")
+st.markdown("Green: 4 or more beds available; Yellow: 1-3 beds available.")
