@@ -30,12 +30,10 @@ hut_names = sorted(df.index.unique())
 
 st.title("TMB hut availability calendar")
 
-start_date = today
-end_date = END_DATE
 
 date_range = st.date_input(
     "Select a date range:",
-    value=(start_date, end_date),
+    value=(today, END_DATE),
     min_value=START_DATE,
     max_value=END_DATE,
     key="date_range",
