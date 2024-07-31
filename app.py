@@ -5,6 +5,9 @@ import streamlit as st
 
 st.set_page_config(layout="wide")
 
+START_DATE = datetime.strptime("2024-06-01", "%Y-%m-%d")
+END_DATE = datetime.strptime("2024-09-29", "%Y-%m-%d")
+
 today = datetime.today()
 
 try:
@@ -13,7 +16,7 @@ try:
         f"https://raw.githubusercontent.com/leonlan/tour-du-mont-blanc/availability/daily/{today.date()}.csv",
         index_col=0,
     )
-    text = f"Data fetched on {today.date()}"
+    text = f"Data last updated on: {today.date()}."
 except:
     # Fallback to yesterday's data if today's data is not available.
     yesterday = today - timedelta(days=1)
@@ -23,41 +26,38 @@ except:
     )
     text = f"Data last updated on: {yesterday.date()}"
 
+hut_names = sorted(df.index.unique())
+
 st.title("TMB hut availability calendar")
-st.markdown(text)
 
-start_date = today
-end_date = datetime.strptime("2024-09-29", "%Y-%m-%d")
-
-min_date = datetime.strptime("2024-06-01", "%Y-%m-%d")
-max_date = end_date
 
 date_range = st.date_input(
     "Select a date range:",
-    value=(start_date, end_date),
-    min_value=min_date,
-    max_value=max_date,
+    value=(today, END_DATE),
+    min_value=START_DATE,
+    max_value=END_DATE,
+    key="date_range",
 )
 
-hut_names = sorted(df.index.unique())
 selected_huts = st.multiselect(
-    "Select names:",
+    "Select huts:",
     options=hut_names,
     default=hut_names,
+    key="selected_huts",
 )
 
 
 def highlight_conditions(val):
-    if val in [1, 2]:
-        color = "#FFEB3B"  # yellow
-    elif val >= 3:
+    if val >= 4:
         color = "#81C784"  # green
+    elif 0 < val:
+        color = "#FFEB3B"  # yellow
     else:
         color = ""
     return f"background-color: {color}"
 
 
-if len(date_range) > 1:
+if len(date_range) == 2:  # both dates must be selected
     cols = [
         col
         for col in df.columns
@@ -68,3 +68,7 @@ if len(date_range) > 1:
     if not filtered_df.empty:
         styled_df = filtered_df.style.map(highlight_conditions)
         st.dataframe(styled_df)
+
+
+st.markdown(text)
+st.markdown("Green: 4 or more beds available; Yellow: 1-3 beds available.")
