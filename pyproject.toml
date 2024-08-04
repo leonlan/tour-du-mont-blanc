@@ -16,6 +16,9 @@ requests = "^2.31.0"
 pandas = "^2.1.3"
 streamlit = "^1.36.0"
 
+[tool.black]
+line-length = 79
+
 
 [build-system]
 requires = ["poetry-core"]
