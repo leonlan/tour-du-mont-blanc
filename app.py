@@ -50,13 +50,14 @@ selected_huts = st.multiselect(
 def highlight_conditions(val):
     if not isinstance(val, int):
         return
+
     if val >= 4:
-        color = "#81C784"  # green
+        style = "background-color: #81C784; color: black"  # green
     elif 0 < val:
-        color = "#FFEB3B"  # yellow
+        style = "background-color: #FFF176; color: black"  # yellow
     else:
-        color = ""
-    return f"background-color: {color}; color: black;"
+        style = ""
+    return style
 
 
 # Add the URL for each hut.
