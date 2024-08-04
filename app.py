@@ -17,12 +17,12 @@ today = datetime.today()
 try:
     # Get the most recent hut availability data.
     df = pd.read_csv(AVAILABILITY_URL.format(date=today.date()), index_col=0)
-    text = f"Data last updated on: {today.date()}."
+    last_updated_at = f"Data last updated on: {today.date()}."
 except:
     # Fallback to yesterday's data if today's data is not available.
     yesterday = (today - timedelta(days=1)).date()
     df = pd.read_csv(AVAILABILITY_URL.format(date=yesterday), index_col=0)
-    text = f"Data last updated on: {yesterday}"
+    last_updated_at = f"Data last updated on: {yesterday}"
 
 
 huts_df = pd.read_csv(HUTS_URL)
@@ -68,10 +68,10 @@ df.insert(0, "URL", df.index.map(name2url))
 # Reorder on counter-clockwise order of huts.
 cc_ordering = huts_df["mon_name"].tolist()
 cc_ordering = {name: i for i, name in enumerate(cc_ordering, 1)}
-df.insert(1, "TMB ordering", df.index.map(cc_ordering))
+df.insert(1, "TMB order", df.index.map(cc_ordering))
 
 if len(date_range) == 2:  # both dates must be selected
-    cols = ["URL", "TMB ordering"]
+    cols = ["URL", "TMB order"]
     dates = [
         col
         for col in df.columns
@@ -99,8 +99,11 @@ if len(date_range) == 2:  # both dates must be selected
         )
 
 
-st.markdown(text)
+st.markdown(
+    "Sorting by TMB order will arrange the huts in counter-clockwise (ascending) or clockwise (descending) order around the TMB trek."
+)
 st.markdown("Green: 4 or more beds available; Yellow: 1-3 beds available.")
 st.markdown(
     "Click [here](https://umap.openstreetmap.fr/fr/map/tour-du-mont-blanc-ccpmb_206457#11/45.9051/6.9293) for a map of the TMB huts."
 )
+st.markdown(last_updated_at)
