@@ -5,8 +5,8 @@ import streamlit as st
 
 st.set_page_config(layout="wide")
 
-START_DATE = datetime.strptime("2024-06-01", "%Y-%m-%d")
-END_DATE = datetime.strptime("2024-09-29", "%Y-%m-%d")
+START_DATE = datetime.strptime("2025-06-02", "%Y-%m-%d")
+END_DATE = datetime.strptime("2025-09-28", "%Y-%m-%d")
 
 AVAILABILITY_URL = "https://raw.githubusercontent.com/leonlan/tour-du-mont-blanc/availability/daily/{date}.csv"
 HUTS_URL = "https://raw.githubusercontent.com/leonlan/tour-du-mont-blanc/main/data/huts.csv"
