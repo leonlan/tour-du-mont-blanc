@@ -1,6 +1,5 @@
 from collections import defaultdict
 import argparse
-from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
@@ -15,7 +14,7 @@ data_loc = Path("data/huts.csv")
 refuges_df = pd.read_csv(data_loc)
 refuges_df = refuges_df[refuges_df["id"].notnull()]
 
-dates = ["2024-06-01", "2024-07-01", "2024-07-31"]
+dates = ["2024-06-01", "2024-07-01", "2024-07-31", "2024-08-30"]
 availability = defaultdict(dict)
 
 for date in dates:
