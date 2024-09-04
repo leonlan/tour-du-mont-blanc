@@ -32,7 +32,7 @@ st.title("TMB hut availability calendar")
 
 date_range = st.date_input(
     "Select a date range:",
-    value=(today, END_DATE),
+    value=(max(START_DATE, today), END_DATE),
     min_value=START_DATE,
     max_value=END_DATE,
     key="date_range",
