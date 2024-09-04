@@ -24,13 +24,13 @@ jobs:
         run: poetry install
       - name: Get new availability data
         run: |
-          poetry run python scripts/get_availability.py --out daily/$(date +%Y-%m-%d).csv
+          poetry run python scripts/get_availability.py --out data/2025/$(date +%Y-%m-%d).csv
       - name: Commit and push to availability branch
         run: |
           git config --global user.name 'GitHub Action'
           git config --global user.email 'leonlan@users.noreply.github.com'
           git fetch origin
-          git checkout availability
+          git checkout 2025
           git add daily/$(date +%Y-%m-%d).csv
           git commit -m "Add availability $(date +%Y-%m-%d)"
-          git push origin availability
+          git push origin 2025
