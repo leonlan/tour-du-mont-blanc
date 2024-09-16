@@ -19,6 +19,10 @@ streamlit = "^1.36.0"
 [tool.black]
 line-length = 79
 
+[tool.poetry.group.analysis.dependencies]
+jupyterlab = "^4.2.0"
+
+
 
 [build-system]
 requires = ["poetry-core"]
