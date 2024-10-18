@@ -30,6 +30,10 @@ huts_df = pd.read_csv(HUTS_URL)
 
 st.title("TMB hut availability calendar")
 
+st.markdown(
+    "Check out [TMB Planner](https://tmbplanner.com/) for a new version of this app."
+)
+
 date_range = st.date_input(
     "Select a date range:",
     value=(max(START_DATE, today), END_DATE),
