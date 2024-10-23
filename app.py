@@ -30,9 +30,17 @@ huts_df = pd.read_csv(HUTS_URL)
 
 st.title("TMB hut availability calendar")
 
-st.markdown(
-    "Check out [TMB Planner](https://tmbplanner.com/) for a new version of this app."
-)
+text = "Check out our website at [TMB Planner](https://tmbplanner.com/) for planning tools for your Tour du Mont Blanc hike."
+st.markdown(text)
+
+
+@st.dialog("Check out our new website!", width="small")
+def popup():
+    st.write(text)
+
+
+popup()
+
 
 date_range = st.date_input(
     "Select a date range:",
