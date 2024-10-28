@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
 import pandas as pd
 import streamlit as st
@@ -16,14 +16,12 @@ now = datetime.now()
 
 try:
     df = pd.read_csv(
-        AVAILABILITY_URL.format(date=now.date()),
-        hour=now.hour,
+        AVAILABILITY_URL.format(date=now.date(), hour=now.hour - 2),
         index_col=0,
     )
 except:
     df = pd.read_csv(
-        AVAILABILITY_URL.format(date=now.date()),
-        hour=now.hour - 1,
+        AVAILABILITY_URL.format(date=now.date(), hour=now.hour - 3),
         index_col=0,
     )
 
@@ -48,7 +46,7 @@ popup()
 
 date_range = st.date_input(
     "Select a date range:",
-    value=(max(START_DATE, today), END_DATE),
+    value=(max(START_DATE, datetime.today()), END_DATE),
     min_value=START_DATE,
     max_value=END_DATE,
     key="date_range",
