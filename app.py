@@ -1,38 +1,52 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
 import pandas as pd
 import streamlit as st
 
 st.set_page_config(layout="wide")
 
-START_DATE = datetime.strptime("2024-06-01", "%Y-%m-%d")
-END_DATE = datetime.strptime("2024-09-29", "%Y-%m-%d")
+START_DATE = datetime.strptime("2025-06-02", "%Y-%m-%d")
+END_DATE = datetime.strptime("2025-09-28", "%Y-%m-%d")
 
-AVAILABILITY_URL = "https://raw.githubusercontent.com/leonlan/tour-du-mont-blanc/availability/daily/{date}.csv"
+AVAILABILITY_URL = "https://raw.githubusercontent.com/leonlan/tour-du-mont-blanc/2025/data/2025/{date}-{hour:02}.csv"
 HUTS_URL = "https://raw.githubusercontent.com/leonlan/tour-du-mont-blanc/main/data/huts.csv"
 
 
-today = datetime.today()
+now = datetime.now()
 
 try:
-    # Get the most recent hut availability data.
-    df = pd.read_csv(AVAILABILITY_URL.format(date=today.date()), index_col=0)
-    last_updated_at = f"Data last updated on: {today.date()}."
+    df = pd.read_csv(
+        AVAILABILITY_URL.format(date=now.date(), hour=now.hour - 2),
+        index_col=0,
+    )
 except:
-    # Fallback to yesterday's data if today's data is not available.
-    yesterday = (today - timedelta(days=1)).date()
-    df = pd.read_csv(AVAILABILITY_URL.format(date=yesterday), index_col=0)
-    last_updated_at = f"Data last updated on: {yesterday}"
+    df = pd.read_csv(
+        AVAILABILITY_URL.format(date=now.date(), hour=now.hour - 3),
+        index_col=0,
+    )
 
+last_updated_at = f"Data last updated on: {now.date()}."
 
 huts_df = pd.read_csv(HUTS_URL)
 
 
 st.title("TMB hut availability calendar")
 
+text = "Check out our website at [TMB Planner](https://tmbplanner.com/) for planning tools for your Tour du Mont Blanc hike."
+st.markdown(text)
+
+
+@st.dialog("Check out our new website!", width="small")
+def popup():
+    st.write(text)
+
+
+popup()
+
+
 date_range = st.date_input(
     "Select a date range:",
-    value=(today, END_DATE),
+    value=(max(START_DATE, datetime.today()), END_DATE),
     min_value=START_DATE,
     max_value=END_DATE,
     key="date_range",

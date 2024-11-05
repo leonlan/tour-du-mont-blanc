@@ -2,7 +2,8 @@ name: Get daily availability
 
 on:
   schedule:
-    - cron:  '0 8 * * *'
+    - cron:  '0 */1 * * *'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -23,13 +24,15 @@ jobs:
         run: poetry install
       - name: Get new availability data
         run: |
-          poetry run python scripts/get_availability.py --out daily/$(date +%Y-%m-%d).csv
+          date_str=$(date +%Y-%m-%d-%H)
+          poetry run python scripts/get_availability.py --out data/2025/${date_str}.csv
       - name: Commit and push to availability branch
         run: |
+          date_str=$(date +%Y-%m-%d-%H)
           git config --global user.name 'GitHub Action'
           git config --global user.email 'leonlan@users.noreply.github.com'
           git fetch origin
-          git checkout availability
-          git add daily/$(date +%Y-%m-%d).csv
-          git commit -m "Add availability $(date +%Y-%m-%d)"
-          git push origin availability
+          git checkout 2025
+          git add data/2025/${date_str}.csv
+          git commit -m "Add availability ${date_str}"
+          git push origin 2025
