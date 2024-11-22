@@ -45,3 +45,29 @@ known-first-party = ["tests"]
 
 [tool.mypy]
 ignore_missing_imports = true
+
+
+# TODO Remove when Streamlit supports UV.
+[tool.poetry]
+name = "tmb"
+version = "0.1.0"
+description = "Planning tool for Tour du Mont Blanc"
+authors = ["Leon Lan <leonlan.yd@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/leonlan/tour-du-mont-blanc"
+
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "^2.31.0"
+
+
+[tool.poetry.group.dashboard.dependencies]
+pandas = "^2.1.3"
+streamlit = "^1.36.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
