@@ -19,11 +19,6 @@ dashboard = [
 ]
 
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-
 [tool.black]
 line-length = 79
 
