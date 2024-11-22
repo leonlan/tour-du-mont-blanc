@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import pandas as pd
 import streamlit as st
@@ -8,22 +8,20 @@ st.set_page_config(layout="wide")
 START_DATE = datetime.strptime("2025-06-02", "%Y-%m-%d")
 END_DATE = datetime.strptime("2025-09-28", "%Y-%m-%d")
 
-AVAILABILITY_URL = "https://raw.githubusercontent.com/leonlan/tour-du-mont-blanc/2025/data/2025/{date}-{hour:02}.csv"
+AVAILABILITY_URL = "https://raw.githubusercontent.com/leonlan/tour-du-mont-blanc/refs/heads/main/data/2025/{datetime:%Y-%m-%d-%H}.csv"
 HUTS_URL = "https://raw.githubusercontent.com/leonlan/tour-du-mont-blanc/main/data/huts.csv"
 
 
 now = datetime.now()
+now -= timedelta(hours=2)  # UTC+2
 
 try:
-    df = pd.read_csv(
-        AVAILABILITY_URL.format(date=now.date(), hour=now.hour - 2),
-        index_col=0,
-    )
+    url = AVAILABILITY_URL.format(datetime=now)
+    print(url)
+    df = pd.read_csv(url, index_col=0)
 except:
-    df = pd.read_csv(
-        AVAILABILITY_URL.format(date=now.date(), hour=now.hour - 3),
-        index_col=0,
-    )
+    url = AVAILABILITY_URL.format(datetime=datetime.now() - timedelta(hours=1))
+    df = pd.read_csv(url, index_col=0)
 
 last_updated_at = f"Data last updated on: {now.date()}."
 
